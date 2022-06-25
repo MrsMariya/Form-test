@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 const NameInput = () => {
   const [name, setName] = useState('');
@@ -24,10 +24,13 @@ const NameInput = () => {
       setErrorName('Необходимо ввести имя и фамилию')
     } else if(lastName.length < 3 || lastName.length > 30) {
       setErrorName('Длина должна быть не менее 3 и не более 30 символов')
+    } else if(lastName.includes(' ')){
+      return lastName.replace(/\s/g, '')
     } else {
       setErrorName('')
     }
 
+    value=value.split(' ').join(' ')
     setName(value)
   }
 

@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import NameInput from "../inputs/NameInput";
-import PhoneInput from "../inputs/PhoneInput";
+import React, { useState } from 'react';
+import MessageInput from '../inputs/MessageInput';
+import NameInput from '../inputs/NameInput';
+import PhoneInput from '../inputs/PhoneInput';
 
 const Form = () => {
 
   const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
-  const [message, setMessage] = useState('');
-
   const [errorEmail, setErrorEmail] = useState('Поле не может быть пустым!');
-
   const [isValidEmail, setIsValidEmail] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -17,10 +15,7 @@ const Form = () => {
   }
 
   const blurHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    switch(event.target.name){
-      case 'email' : setIsValidEmail(true)
-      break
-    }
+    event.target.name === 'email' ? setIsValidEmail(true) : setIsValidEmail(false);
   }
 
   const emailHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,19 +54,10 @@ const Form = () => {
              onChange={(e) => setBirthDate(e.target.value)}
              />
           </label>
-          <label htmlFor={'message'} >
-            Сообщение
-            <textarea name={'message'}
-             maxLength={300}
-             placeholder={'Сообщение...'}
-             rows={5}
-             value={message}
-             onChange={(e) => setMessage(e.target.value)}
-                />
-          </label>
-        <button className={'send-button'} type={'submit'}>
-          Отправить
-        </button>
+          <MessageInput />
+          <button className={'send-button'} type={'submit'}>
+            Отправить
+          </button>
       </form>
     </div>
   )
