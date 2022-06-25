@@ -1,16 +1,16 @@
 import React, { useState } from "react";
+import NameInput from "../inputs/NameInput";
 import PhoneInput from "../inputs/PhoneInput";
 
 const Form = () => {
-  const [name, setName] = useState('');
+
   const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [message, setMessage] = useState('');
-  const [errorName, setErrorName] = useState('Поле не может быть пустым!');
-  const [errorEmail, setErrorEmail] = useState('Поле не может быть пустым!');
-  const [isValidName, setIsValidName] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(false);
 
+  const [errorEmail, setErrorEmail] = useState('Поле не может быть пустым!');
+
+  const [isValidEmail, setIsValidEmail] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,27 +18,8 @@ const Form = () => {
 
   const blurHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch(event.target.name){
-      case 'nameLastname' : setIsValidName(true)
-      break
       case 'email' : setIsValidEmail(true)
       break
-    }
-  }
-
-  const nameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value.toUpperCase())
-    const firstName = event.target.value.split(' ')[0]
-    const lastName = event.target.value.split(' ')[1]
-    console.log(typeof(firstName))
-    if(firstName.length < 3) {
-      setErrorName('Длина должна быть не менее 3 букв')
-    }
-      else if(name.split(' ').length < 2) {
-      setErrorName('Необходимо ввести имя и фамилию')
-    } else if(lastName.length < 3) {
-      setErrorName('Длина должна быть не менее 3 букв')
-    }  else {
-      setErrorName('')
     }
   }
 
@@ -52,22 +33,11 @@ const Form = () => {
     }
   }
 
- 
   return (
     <div className={'wrapper'}>
       <form className={'contact-form'} onSubmit={handleSubmit}>
         <h1>Свяжитесь с нами!</h1>
-          <label htmlFor={'nameLastname'}>
-            Имя, фамилия
-            <input type={'text'}
-             placeholder={'Введите Ваши имя, фамилию'}
-             name={'nameLastname'}
-             value={name}
-             onBlur={(e)=> blurHandler(e)}
-             onChange={(e) => nameHandler(e)}
-             />
-             {(isValidName && errorName) && <span className={'error-message'}>{errorName}</span>}
-          </label>
+          <NameInput />
           <label htmlFor={'email'}>
             E-mail
             <input type={'text'}
