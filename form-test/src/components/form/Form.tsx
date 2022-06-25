@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import PhoneInput from "../inputs/PhoneInput";
 
 const Form = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [message, setMessage] = useState('');
   const [errorName, setErrorName] = useState('Поле не может быть пустым!');
   const [errorEmail, setErrorEmail] = useState('Поле не может быть пустым!');
   const [isValidName, setIsValidName] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +52,7 @@ const Form = () => {
     }
   }
 
-
+ 
   return (
     <div className={'wrapper'}>
       <form className={'contact-form'} onSubmit={handleSubmit}>
@@ -78,15 +79,7 @@ const Form = () => {
              />
             {(isValidEmail && errorEmail) && <span className={'error-message'}>{errorEmail}</span>}
           </label>
-          <label htmlFor={'phone'} >
-            Номер телефона
-            <input type={'text'}
-             placeholder={'Введите Ваш номер телефона'}
-             name={'phone'}
-             value={phone}
-             onChange={(e) => setPhone(e.target.value)}
-             />
-          </label>
+          <PhoneInput />
           <label htmlFor={'birthDate'} >
             Дата рождения
             <input type={'date'}
