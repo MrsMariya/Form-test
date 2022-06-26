@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import sendForm from '../../actions/SendForm';
 
 const Form = () => {
 
@@ -18,6 +19,13 @@ const Form = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    sendForm(name, email, phone, birthDate, message);
+    setName('');
+    setErrorName('');
+    setEmail('');
+    setBirthDate('');
+    setPhone('');
+    setMessage('');
   }
 
   const blurHandler = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,7 +42,7 @@ const Form = () => {
   }
 
   const nameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let value = event.target.value.replace(/[0-9а-я.]/g, '').toUpperCase().replace(/\s/g, ' ');
+    let value = event.target.value.replace(/[0-9а-яА-Я.]/g, '').toUpperCase();
     const firstName = value.split(' ')[0]
     const lastName = value.split(' ')[1]
 
@@ -54,7 +62,6 @@ const Form = () => {
       setErrorName('')
     }
 
-    value=value.split(' ').join(' ')
     setName(value)
   }
 
@@ -171,9 +178,11 @@ const Form = () => {
             />
             {(isValidMessage && errorMessage) && <span className={'error-message'}>{errorMessage}</span>}
           </label>
-        <button className={'send-button'} type={'submit'}>
-          Отправить
-        </button>
+          <button className={'send-button'}
+            type={'submit'}
+            disabled={!!errorMessage.length || !!errorEmail.length || !!errorPhone.length || !!errorName.length || !birthDate.length}>
+            Отправить
+          </button>
       </form>
     </div>
   )
