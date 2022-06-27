@@ -44,13 +44,14 @@
 
     input[type='text'], input[type='date'], input[type='tel'], textarea {
       width:100%;
-      padding: 1rem;
+      padding: 0.8rem;
       font-style: italic;
       border: 2px solid $secondary;
       border-radius: 1rem;
       background: transparent;
       outline-color: #FFD6BA;
       font-size: 1rem;
+      margin: 0.2rem;
 
       @media screen and (max-width: 768px) {
         font-size: 0.8rem;
@@ -98,8 +99,14 @@
     background-color: $secondary;
   }
 
+  .errorWrapper {
+    display: block;
+    height: 0.8rem;
+  }
+
   .success {
     display: block;
+    height: 1.5rem;
     color: $background;
     font-size: 1.5rem;
     text-align: center;

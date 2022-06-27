@@ -8,7 +8,7 @@ const Form = () => {
   const [email, setEmail] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [message, setMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('Поле не может быть пустым!');
   const [isValidMessage, setIsValidMessage] = useState(false);
   const [errorEmail, setErrorEmail] = useState('Поле не может быть пустым!');
   const [isValidEmail, setIsValidEmail] = useState(false);
@@ -21,12 +21,7 @@ const Form = () => {
   const [text, setText] = useState('');
 
   const sendForm = async (name: string, email: string, phone: string, birthDate: string, message: string) => {
-    let mes = `Информация о пользователе!\n`
-        mes += `<b>Отправитель ${name}</b>\n`
-        mes += `<b>Почта ${email}</b>\n`
-        mes += `<b>Номер телефона ${phone}</b>\n`
-        mes += `<b>Дата рождения ${birthDate}</b>\n`
-        mes += `<b>Сообщение\n ${message}</b>`
+    let mes = `Информация о пользователе!\n<b>Отправитель ${name}</b>\n<b>Почта ${email}</b>\n<b>Номер телефона ${phone}</b>\n<b>Дата рождения ${birthDate}</b>\n<b>Сообщение\n ${message}</b>`
     try {
        await axios.post( URL, {
         chat_id: ID,
@@ -34,7 +29,6 @@ const Form = () => {
         text: mes
         })
         .then((res) => {
-          console.log(res.data.result)
           setText('Сообщение доставлено!')
         })
     } catch(e) {
@@ -159,7 +153,9 @@ const Form = () => {
               setBlur={blurHandler}
               setValue={nameHandler}
               />
-              {(isValidName && errorName) && <span className={'error-message'}>{errorName}</span>}
+              <div className={'errorWrapper'}>
+                {(isValidName && errorName) && <span className={'error-message'}>{errorName}</span>}
+              </div>
           </label>
           <label htmlFor={'email'}>
             E-mail
@@ -171,7 +167,9 @@ const Form = () => {
               setValue={emailHandler}
               setBlur={blurHandler}
              />
-            {(isValidEmail && errorEmail) && <span className={'error-message'}>{errorEmail}</span>}
+            <div className={'errorWrapper'}>
+              {(isValidEmail && errorEmail) && <span className={'error-message'}>{errorEmail}</span>}
+            </div>
           </label>
           <label htmlFor={'phone'} >
             Номер телефона
@@ -183,7 +181,9 @@ const Form = () => {
               setValue={phoneHandler}
               setBlur={blurHandler}
             />
-            {(isValidPhone && errorPhone) && <span className={'error-message'}>{errorPhone}</span>}
+            <div className={'errorWrapper'}>
+              {(isValidPhone && errorPhone) && <span className={'error-message'}>{errorPhone}</span>}
+            </div>
           </label>
           <label htmlFor={'birthDate'} >
             Дата рождения
@@ -193,6 +193,7 @@ const Form = () => {
               name={'birthDate'}
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
+              max={'2022-06-27'}
              />
           </label>
           <label htmlFor={'message'} >
@@ -200,21 +201,26 @@ const Form = () => {
             <textarea
               name={'message'}
               placeholder={'Сообщение...'}
-              rows={5}
+              rows={4}
               value={message}
               onChange={(e) => messageHandler(e)}
               onBlur={(e) => blurHandler(e)}
+              required
             />
-            {(isValidMessage && errorMessage) && <span className={'error-message'}>{errorMessage}</span>}
+            <div className={'errorWrapper'}>
+              {(isValidMessage && errorMessage) && <span className={'error-message'}>{errorMessage}</span>}
+            </div>
           </label>
           <button className={'send-button'}
             type={'submit'}
             disabled={!!errorMessage.length || !!errorEmail.length || !!errorPhone.length || !!errorName.length || !birthDate.length}>
             Отправить
           </button>
+          <div className={'success'}>
             { (!name.length && !email.length && !phone.length && !birthDate.length && !message.length) &&
               <div className={'success'}>{text}</div> 
             }
+          </div>
       </form>
     </div>
   )
