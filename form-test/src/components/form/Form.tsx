@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import sendForm from '../../actions/sendForm';
+import { ID, URL } from '../../constants/constants';
 import Input from '../inputs/Input';
 
 const Form = () => {
@@ -17,7 +18,29 @@ const Form = () => {
   const [phone, setPhone] = useState('');
   const [errorPhone, setErrorPhone] = useState('Поле не может быть пустым!');
   const [isValidPhone, setIsValidPhone] = useState(false);
-  const [text] = useState('Сообщение доставлено!');
+  const [text, setText] = useState('');
+
+  const sendForm = async (name: string, email: string, phone: string, birthDate: string, message: string) => {
+    let mes = `Информация о пользователе!\n`
+        mes += `<b>Отправитель ${name}</b>\n`
+        mes += `<b>Почта ${email}</b>\n`
+        mes += `<b>Номер телефона ${phone}</b>\n`
+        mes += `<b>Дата рождения ${birthDate}</b>\n`
+        mes += `<b>Сообщение\n ${message}</b>`
+    try {
+       await axios.post( URL, {
+        chat_id: ID,
+        parse_mode: 'html',
+        text: mes
+        })
+        .then((res) => {
+          console.log(res.data.result)
+          setText('Сообщение доставлено!')
+        })
+    } catch(e) {
+      setText('Возникла ошибка!')
+    }
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
