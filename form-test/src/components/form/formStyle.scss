@@ -77,6 +77,13 @@
     border: 1px solid $secondary;
     background-color: $secondary;
   }
+
+  .success {
+    display: block;
+    color: $background;
+    font-size: 1.5rem;
+    text-align: center;
+  }
 }
 
 .error-message {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import sendForm from '../../actions/SendForm';
+import sendForm from '../../actions/sendForm';
+import Input from '../inputs/Input';
 
 const Form = () => {
 
@@ -16,6 +17,7 @@ const Form = () => {
   const [phone, setPhone] = useState('');
   const [errorPhone, setErrorPhone] = useState('Поле не может быть пустым!');
   const [isValidPhone, setIsValidPhone] = useState(false);
+  const [text] = useState('Сообщение доставлено!');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -126,55 +128,59 @@ const Form = () => {
         <h1>Свяжитесь с нами!</h1>
           <label htmlFor={'nameLastname'}>
             Имя, фамилия
-            <input type={'text'}
+            <Input
+              type={'text'}
               placeholder={'Введите Ваши имя и фамилию латинскими буквами'}
               name={'nameLastname'}
               value={name}
-              onBlur={(e)=> blurHandler(e)}
-              onChange={(e) => nameHandler(e)}
+              setBlur={blurHandler}
+              setValue={nameHandler}
               />
               {(isValidName && errorName) && <span className={'error-message'}>{errorName}</span>}
           </label>
           <label htmlFor={'email'}>
             E-mail
-            <input type={'text'}
-             placeholder={'Введите Ваш e-mail'}
-             name={'email'}
-             value={email}
-             onChange={(e) => emailHandler(e)}
-             onBlur={(e)=> blurHandler(e)}
+            <Input
+              type={'text'}
+              placeholder={'Введите Ваш e-mail'}
+              name={'email'}
+              value={email}
+              setValue={emailHandler}
+              setBlur={blurHandler}
              />
             {(isValidEmail && errorEmail) && <span className={'error-message'}>{errorEmail}</span>}
           </label>
           <label htmlFor={'phone'} >
             Номер телефона
-            <input type={'tel'}
+            <Input
+              type={'tel'}
               placeholder={'Введите Ваш номер телефона'}
               name={'phone'}
               value={phone}
-              onChange={(e) => phoneHandler(e)}
-              onBlur={(e) => blurHandler(e)}
+              setValue={phoneHandler}
+              setBlur={blurHandler}
             />
             {(isValidPhone && errorPhone) && <span className={'error-message'}>{errorPhone}</span>}
           </label>
           <label htmlFor={'birthDate'} >
             Дата рождения
-            <input type={'date'}
-             placeholder={'Выберите Вашу дата рождения'}
-             name={'birthDate'}
-             value={birthDate}
-             onChange={(e) => setBirthDate(e.target.value)}
+            <input 
+              type={'date'}
+              placeholder={'Выберите Вашу дата рождения'}
+              name={'birthDate'}
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
              />
           </label>
           <label htmlFor={'message'} >
             Сообщение
-            <textarea name={'message'}
-             maxLength={300}
-             placeholder={'Сообщение...'}
-             rows={5}
-             value={message}
-             onChange={(e) => messageHandler(e)}
-             onBlur={(e) => blurHandler(e)}
+            <textarea
+              name={'message'}
+              placeholder={'Сообщение...'}
+              rows={5}
+              value={message}
+              onChange={(e) => messageHandler(e)}
+              onBlur={(e) => blurHandler(e)}
             />
             {(isValidMessage && errorMessage) && <span className={'error-message'}>{errorMessage}</span>}
           </label>
@@ -183,6 +189,9 @@ const Form = () => {
             disabled={!!errorMessage.length || !!errorEmail.length || !!errorPhone.length || !!errorName.length || !birthDate.length}>
             Отправить
           </button>
+            { (!name.length && !email.length && !phone.length && !birthDate.length && !message.length) &&
+              <div className={'success'}>{text}</div> 
+            }
       </form>
     </div>
   )

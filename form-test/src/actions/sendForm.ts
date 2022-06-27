@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const TOKEN = '5486518024:AAF2Qv9uMwlMIEVtl1_5edN--8OBFpbTqeI';
 const URL = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
-const ID = '-1001685911322'
-
+const ID = '-1001685911322';
 
 const sendForm = async (name: string, email: string, phone: string, birthDate: string, message: string) => {
   let mes = `Информация о пользователе!\n`
@@ -17,6 +16,9 @@ const sendForm = async (name: string, email: string, phone: string, birthDate: s
       chat_id: ID,
       parse_mode: 'html',
       text: mes
+      })
+      .then((res) => {
+        console.log(res.data.result)
       })
   } catch(e) {
     console.log(e)
